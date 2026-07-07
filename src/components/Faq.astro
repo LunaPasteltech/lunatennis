@@ -1,0 +1,37 @@
+---
+import { t, type Locale } from '../i18n/content';
+const { locale } = Astro.props as { locale: Locale };
+const c = t(locale).faq;
+---
+<section class="pad" id="faq">
+  <div class="wrap narrow">
+    <div class="center">
+      <p class="eyebrow reveal">{c.eyebrow}</p>
+      <div class="rule reveal"></div>
+      <h2 class="reveal">{c.title}</h2>
+    </div>
+    <div class="list reveal">
+      {c.items.map((item) => (
+        <details>
+          <summary>{item.q}<span class="plus"></span></summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .narrow { max-width: 800px; }
+  .list { margin-top: 44px; }
+  details { border-top: 1px solid var(--line); }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 4px; font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.5rem); color: var(--ink); }
+  summary::-webkit-details-marker { display: none; }
+  .plus { position: relative; width: 16px; height: 16px; flex: none; }
+  .plus::before, .plus::after { content: ''; position: absolute; background: var(--terracotta); transition: transform .3s; }
+  .plus::before { top: 7px; left: 0; width: 16px; height: 2px; }
+  .plus::after { left: 7px; top: 0; width: 2px; height: 16px; }
+  details[open] .plus::after { transform: scaleY(0); }
+  details p { padding: 0 4px 24px; color: var(--ink-soft); max-width: 640px; }
+</style>

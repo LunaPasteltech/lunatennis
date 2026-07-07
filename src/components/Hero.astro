@@ -1,0 +1,140 @@
+---
+import { t, type Locale } from '../i18n/content';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const h = t(locale).hero;
+
+// Temporary free-license slides — Luna replaces with 3–5 own horizontal shots in /public/hero/
+const B = import.meta.env.BASE_URL.replace(/\/?$/, '/'); // base-aware, trailing slash guaranteed
+const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.jpg`, `${B}hero/hero-4.jpg`];
+---
+<header class="hero">
+  <div class="media" aria-hidden="true">
+    <!-- fallback / poster motion: cinematic Ken Burns slideshow (works everywhere, no heavy file) -->
+    <div class="slides">
+      {slides.map((src, i) => (
+        <div class="slide" style={`--i:${i}; background-image:url(${src})`}></div>
+      ))}
+    </div>
+    <!-- video hero: drop /hero/hero-video.webm + .mp4 (8–15s seamless loop, warm grade) to auto-activate.
+         Hosting tip: for production move the file to Cloudflare Stream/R2, keep poster here. -->
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster={`${B}hero/hero-1.jpg`}>
+      <source src={`${B}hero/hero-video.webm`} type="video/webm" />
+      <source src={`${B}hero/hero-video.mp4`} type="video/mp4" />
+    </video>
+  </div>
+  <div class="scrim"></div>
+  <span class="imgslot">IMG: HERO — слайдшоу · пришли 3–5 горизонтальных кадров (16:9)</span>
+
+  <div class="inner wrap">
+    <p class="eyebrow light reveal">{h.eyebrow}</p>
+    <h1 class="display reveal">{h.title}</h1>
+    <p class="sub reveal">{h.subtitle}</p>
+
+    <div class="slogan reveal">
+      <span class="s-main">{h.slogan.main}</span>
+      <span class="s-art">{h.slogan.art}</span>
+    </div>
+
+    <ul class="facts reveal">
+      {h.facts.map((f) => <li>{f}</li>)}
+      <li class="price"><s>{h.priceOld}</s> <b>{h.priceNew}</b></li>
+    </ul>
+
+    <div class="ctas reveal">
+      <a class="btn fill" href="#apply">{h.ctaPrimary}</a>
+      <a class="btn light" href="#program">{h.ctaSecondary}</a>
+    </div>
+
+    <div class="countdown reveal" id="countdown" aria-label="Countdown">
+      <div class="cd"><span class="n" id="cd-d">–</span><span class="t">{h.countdown.days}</span></div>
+      <div class="cd"><span class="n" id="cd-h">–</span><span class="t">{h.countdown.hours}</span></div>
+      <div class="cd"><span class="n" id="cd-m">–</span><span class="t">{h.countdown.minutes}</span></div>
+      <div class="cd"><span class="n" id="cd-s">–</span><span class="t">{h.countdown.seconds}</span></div>
+    </div>
+  </div>
+
+  <div class="scrollcue" aria-hidden="true"><span></span></div>
+</header>
+
+<style>
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; padding-top: 104px; }
+
+  /* dynamic slideshow — slow zoom + crossfade (Ken Burns) */
+  .media { position: absolute; inset: 0; }
+  .slides { position: absolute; inset: 0; background: linear-gradient(180deg, #28384a, #6e6147); }
+  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s ease; filter: saturate(1.06) contrast(1.03) brightness(1.02) sepia(.05); }
+  .hero-video.ready { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+  .slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: saturate(1.05) contrast(1.02) sepia(.04) brightness(1.01);
+    opacity: 0; will-change: opacity, transform;
+    animation: heroShow 36s infinite cubic-bezier(.37, 0, .26, 1);
+    animation-delay: calc(var(--i) * 9s);
+  }
+  /* slow, overlapping crossfade + gentle Ken Burns drift */
+  @keyframes heroShow {
+    0%   { opacity: 0; transform: scale(1.05); }
+    4%   { opacity: 1; }
+    25%  { opacity: 1; }
+    29%  { opacity: 0; transform: scale(1.13); }
+    100% { opacity: 0; transform: scale(1.13); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide { animation: none; transition: opacity 1s; }
+    .slide:first-child { opacity: 1; }
+  }
+
+  .scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(15,17,22,.62) 0%, rgba(15,17,22,.2) 52%, rgba(15,17,22,0) 80%),
+      linear-gradient(180deg, rgba(15,17,22,.5) 0%, rgba(15,17,22,.22) 32%, rgba(15,17,22,.5) 62%, rgba(15,17,22,.86) 100%);
+  }
+  .imgslot {
+    position: absolute; right: 16px; top: 92px; z-index: 3;
+    font-family: var(--sans); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.6); border: 1px dashed rgba(255,255,255,.38); padding: 5px 10px; border-radius: 2px;
+  }
+  @media (max-width: 1080px) { .imgslot { display: none; } }
+  .inner { position: relative; z-index: 2; width: 100%; margin-top: auto; padding-bottom: clamp(44px, 7vw, 88px); }
+  .eyebrow.light { color: #fff; opacity: .92; }
+  .display { color: #fff; max-width: 16ch; margin: 18px 0 0; text-shadow: 0 2px 30px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.35); }
+  .sub { color: #fff; max-width: 600px; margin: 22px 0 0; font-size: clamp(1.02rem, 1.5vw, 1.22rem); font-weight: 300; opacity: .96; text-shadow: 0 1px 20px rgba(0,0,0,.3); }
+  .slogan { display: flex; align-items: baseline; gap: 16px; margin-top: 24px; }
+  .s-main { font-family: var(--serif); font-style: italic; font-size: clamp(1.25rem, 2.2vw, 1.7rem); color: #fff; text-shadow: 0 1px 20px rgba(0,0,0,.35); }
+  .s-art { font-family: var(--sans); font-size: .66rem; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--brass); white-space: nowrap; }
+  @media (max-width: 560px) { .slogan { flex-direction: column; gap: 6px; } }
+  .facts { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 0; margin: 28px 0 0; color: #fff; }
+  .facts li { font-family: var(--sans); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; opacity: .95; padding: 0 18px; border-left: 1px solid rgba(255,255,255,.35); }
+  .facts li:first-child { padding-left: 0; border-left: 0; }
+  .facts li.price s { opacity: .6; margin-right: 6px; }
+  .facts li.price b { color: #fff; font-weight: 600; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .countdown { display: flex; gap: clamp(18px, 3vw, 38px); margin-top: clamp(34px, 5vw, 50px); }
+  .cd { display: flex; flex-direction: column; }
+  .cd .n { font-family: var(--serif); font-size: clamp(1.8rem, 3.4vw, 2.7rem); color: #fff; line-height: 1; }
+  .cd .t { font-size: .58rem; letter-spacing: .26em; text-transform: uppercase; color: #fff; opacity: .8; margin-top: 8px; }
+  .scrollcue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 2; width: 1px; height: 54px; background: rgba(255,255,255,.28); overflow: hidden; }
+  .scrollcue span { position: absolute; top: -50%; left: 0; width: 100%; height: 50%; background: rgba(255,255,255,.9); animation: cue 2.4s cubic-bezier(.7,0,.3,1) infinite; }
+  @keyframes cue { 0% { top: -50%; } 60%, 100% { top: 100%; } }
+  @media (max-width: 560px) { .facts li { padding: 0 12px; font-size: .72rem; } .scrollcue { display: none; } }
+</style>
+
+<script>
+  // Activate the video hero only when a real clip is present, and not on mobile / reduced-motion.
+  const v = document.querySelector('.hero-video') as HTMLVideoElement | null;
+  if (v) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const small = matchMedia('(max-width: 760px)').matches;
+    if (reduce || small) {
+      v.removeAttribute('autoplay');
+      v.preload = 'none';
+      while (v.firstChild) v.removeChild(v.firstChild); // don't fetch video on mobile
+    } else {
+      v.addEventListener('loadeddata', () => v.classList.add('ready'));
+    }
+  }
+</script>

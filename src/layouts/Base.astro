@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import { t, type Locale, RETREAT_START } from '../i18n/content';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+
+const B = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const site = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const alternates = [
+  { hreflang: 'ru', href: `${site}/` },
+  { hreflang: 'es', href: `${site}/es/` },
+  { hreflang: 'en', href: `${site}/en/` },
+  { hreflang: 'x-default', href: `${site}/` },
+];
+const ogImage = `${site}/og.jpg`;
+---
+<!doctype html>
+<html lang={tr.htmlLang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{tr.meta.title}</title>
+  <meta name="description" content={tr.meta.description} />
+  <link rel="canonical" href={locale === 'ru' ? `${site}/` : `${site}/${locale}/`} />
+  {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={tr.meta.title} />
+  <meta property="og:description" content={tr.meta.description} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- preview host only — REMOVE noindex when launching on the real domain -->
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href={`${B}favicon.svg`} type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body data-retreat={RETREAT_START}>
+  <slot />
+
+  <script>
+    // reveal on scroll
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      // text first, imagery follows a beat later — quiet editorial rhythm
+      const isMedia = el.matches('figure, .photo, .hphoto, .jvideo') || !!el.querySelector(':scope > img, :scope > video');
+      const base = Math.min(i % 6, 5) * 0.06;
+      (el as HTMLElement).style.transitionDelay = (base + (isMedia ? 0.22 : 0)).toFixed(2) + 's';
+      io.observe(el);
+    });
+
+    // countdown
+    const target = new Date(document.body.dataset.retreat || '').getTime();
+    const cd = document.getElementById('countdown');
+    if (cd && !isNaN(target)) {
+      const set = (id: string, v: string) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      const tick = () => {
+        let d = Math.max(0, target - Date.now());
+        const dd = Math.floor(d / 864e5); d -= dd * 864e5;
+        const hh = Math.floor(d / 36e5); d -= hh * 36e5;
+        const mm = Math.floor(d / 6e4); d -= mm * 6e4;
+        const ss = Math.floor(d / 1e3);
+        set('cd-d', String(dd));
+        set('cd-h', String(hh).padStart(2, '0'));
+        set('cd-m', String(mm).padStart(2, '0'));
+        set('cd-s', String(ss).padStart(2, '0'));
+      };
+      tick(); setInterval(tick, 1000);
+    }
+  </script>
+</body>
+</html>

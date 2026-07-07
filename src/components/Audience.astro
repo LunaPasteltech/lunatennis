@@ -1,0 +1,154 @@
+---
+import { t, type Locale } from '../i18n/content';
+const { locale } = Astro.props as { locale: Locale };
+const c = t(locale).audience;
+const B = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const { luna, polina, joint } = c.founders;
+---
+<section class="aud pad" id="audience">
+  <div class="wrap">
+    <!-- 1. who it's for -->
+    <div class="intro">
+      <p class="eyebrow reveal">{c.eyebrow}</p>
+      <div class="rule reveal"></div>
+      <h2 class="reveal">{c.title}</h2>
+      <p class="lead reveal">{c.lead}</p>
+
+      <p class="check-title reveal">{c.checkTitle}</p>
+      <ul class="checks">
+        {c.checks.map((item) => <li class="reveal">{item}</li>)}
+      </ul>
+
+      <p class="closing reveal">{c.closing}</p>
+    </div>
+
+    <!-- 2. Luna -->
+    <article class="founder reveal">
+      <figure class="photo breathe">
+        <img src={`${B}${luna.photo}`} alt={`${luna.name} — ${luna.role}`} loading="lazy" />
+      </figure>
+      <div class="voice">
+        {luna.voice.map((v) => <p>{v}</p>)}
+        <p class="sign">{luna.name} · {luna.role}</p>
+      </div>
+    </article>
+
+    <!-- 3. Polina (mirrored) -->
+    <article class="founder flip reveal">
+      <figure class="photo breathe">
+        <img src={`${B}${polina.photo}`} alt={`${polina.name} — ${polina.role}`} loading="lazy" />
+      </figure>
+      <div class="voice">
+        {polina.voice.map((v) => <p>{v}</p>)}
+        <p class="sign">{polina.name} · {polina.role}</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- 4. together — culmination -->
+  <div class="joint">
+    <div class="wrap jgrid">
+      <figure class="jvideo reveal">
+        <video autoplay muted loop playsinline preload="metadata" poster={`${B}${joint.poster}`}>
+          <source src={`${B}${joint.video}`} type="video/mp4" />
+        </video>
+      </figure>
+      <div class="jtext">
+        <h3 class="reveal">{joint.title}</h3>
+        <p class="reveal">{joint.body}</p>
+        <span class="jart reveal">{joint.art}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ————— quiet-luxury rhythm: air is the luxury ————— */
+  .aud { background: var(--paper); padding-bottom: 0; }
+
+  /* intro — measured column, clear type scale */
+  .intro { max-width: 720px; }
+  .intro h2 {
+    font-size: clamp(1.65rem, 3vw, 2.5rem);   /* calmer than the global display scale */
+    line-height: 1.18;
+    max-width: 24ch;                            /* ~65% — breaks on 2–3 lines, not 4 */
+    margin-top: 8px;
+  }
+  .lead {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    color: var(--ink); line-height: 1.5;
+    margin-top: 34px; max-width: 54ch;
+  }
+  .check-title {
+    margin-top: clamp(40px, 5vw, 56px);
+    font-family: var(--sans); font-size: .72rem; font-weight: 500;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  .checks { list-style: none; margin-top: 10px; max-width: 620px; }
+  .checks li {
+    position: relative;
+    padding: 20px 0 20px 34px;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(1rem, 1.25vw, 1.1rem); color: var(--ink); line-height: 1.55;
+  }
+  .checks li::before {
+    content: ''; position: absolute; left: 0; top: 32px;
+    width: 18px; height: 1px; background: var(--terracotta);
+  }
+  .closing {
+    margin-top: clamp(30px, 4vw, 42px);
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.15rem, 1.9vw, 1.4rem); color: var(--terracotta);
+  }
+
+  /* founder spreads — one template, alternating sides */
+  .founder {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) 1fr;
+    gap: clamp(44px, 6vw, 64px);
+    align-items: center;
+    margin-top: clamp(88px, 11vw, 128px);      /* generous vertical air between spreads */
+  }
+  .founder.flip { grid-template-columns: 1fr minmax(300px, 380px); }
+  .founder.flip .photo { order: 2; }
+  .founder.flip .voice { order: 1; }
+
+  .photo { margin: 0; overflow: hidden; border-radius: 4px; box-shadow: var(--shadow); }
+  .photo img { width: 100%; height: auto; display: block; } /* full image, no crop — racket stays in frame */
+
+  .voice { max-width: 54ch; }
+  .voice p { font-size: clamp(1.02rem, 1.3vw, 1.14rem); color: var(--ink); line-height: 1.7; }
+  .voice p + p { margin-top: 18px; }
+  .sign { font-family: var(--serif); font-style: italic; color: var(--terracotta) !important; margin-top: 26px !important; font-size: 1.12rem; }
+
+  @media (max-width: 780px) {
+    .founder, .founder.flip { grid-template-columns: 1fr; gap: 28px; margin-top: 72px; }
+    .founder.flip .photo { order: 1; }
+    .founder.flip .voice { order: 2; }
+    .photo { max-width: 380px; }
+  }
+
+  /* joint culmination — the slogan's home */
+  .joint {
+    position: relative;
+    margin-top: clamp(96px, 12vw, 150px);
+    background: linear-gradient(150deg, var(--navy) 0%, var(--bottle) 58%, #3a5240 100%);
+    color: var(--ivory);
+  }
+  /* feathered join from paper + soft vignette for depth */
+  .joint::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 110px; background: linear-gradient(180deg, var(--paper), transparent); opacity: .14; pointer-events: none; }
+  .joint::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 150px rgba(8,14,10,.42); pointer-events: none; }
+  .jgrid { position: relative; z-index: 1; }
+  .jgrid {
+    display: grid; grid-template-columns: minmax(280px, 360px) 1fr;
+    gap: clamp(48px, 7vw, 96px); align-items: center;
+    padding-top: clamp(72px, 9vw, 110px); padding-bottom: clamp(72px, 9vw, 110px);
+  }
+  @media (max-width: 820px) { .jgrid { grid-template-columns: 1fr; } .jvideo { max-width: 340px; margin: 0 auto; } }
+  .jvideo { margin: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,.7); }
+  .jvideo video { display: block; width: 100%; height: auto; }
+  .jtext h3 { font-size: clamp(1.9rem, 3.8vw, 2.9rem); color: var(--ivory); max-width: 16ch; }
+  .jtext p { color: rgba(251,248,241,.88); margin-top: 24px; max-width: 52ch; font-size: clamp(1.02rem, 1.35vw, 1.16rem); line-height: 1.7; }
+  .jart { display: inline-block; margin-top: 36px; font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .42em; text-transform: uppercase; color: var(--brass); border-top: 1px solid rgba(169,139,78,.45); padding-top: 18px; }
+</style>

@@ -1,0 +1,109 @@
+/* ===== Luna Tennis Retreat — design system =====
+   Mediterranean "quiet luxury" / old-money: La Gavina & S'Agaró 1930s.
+   Built on the retreatluna palette (sand / olive / terracotta), extended
+   with heritage muted tones. Restraint = richness. */
+
+:root {
+  /* base neutrals */
+  --ivory: #FBF8F1;
+  --paper: #F4EDDE;
+  --sand: #E7DCC9;
+  --sand-deep: #CBB99B;
+  --line: #DCD2BF;
+
+  /* heritage colours */
+  --terracotta: #B5613A;   /* Luna signature */
+  --terracotta-soft: #C8855F;
+  --olive: #5E6347;
+  --olive-soft: #878B6F;
+  --bottle: #2F4A3A;       /* bottle green */
+  --navy: #1E2E3E;         /* mediterranean navy */
+  --oxblood: #6E2B2B;      /* bordo */
+  --brass: #A98B4E;        /* aged gold */
+  --gavina-red: #9E3B2E;   /* rare accent — La Gavina awnings */
+
+  --ink: #2B2823;
+  --ink-soft: #5A554C;
+
+  --shadow: 0 30px 80px -42px rgba(31, 30, 25, .45);
+  --shadow-soft: 0 18px 44px -28px rgba(31, 30, 25, .4);
+
+  --serif: 'Cormorant Garamond', 'Didot', 'Bodoni 72', Georgia, serif;
+  --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  --maxw: 1180px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: var(--ivory);
+  color: var(--ink);
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ---- typography ---- */
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.08; letter-spacing: .005em; }
+.display { font-size: clamp(2.4rem, 6.2vw, 5rem); font-weight: 500; }
+h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); }
+h3 { font-size: clamp(1.4rem, 2.6vw, 2rem); }
+p { font-size: clamp(1rem, 1.15vw, 1.12rem); color: var(--ink-soft); }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+.eyebrow.muted { color: var(--ink-soft); }
+
+/* engraved thin rule, club/invitation feel */
+.rule { width: 52px; height: 1px; background: var(--brass); margin: 24px 0; }
+.center .rule { margin: 24px auto; }
+
+/* ---- layout ---- */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+section { position: relative; }
+.pad { padding: clamp(70px, 10vw, 140px) 0; }
+.center { text-align: center; }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--sans); font-size: .74rem; font-weight: 500;
+  letter-spacing: .24em; text-transform: uppercase;
+  padding: 16px 32px; border: 1px solid currentColor; border-radius: 2px;
+  cursor: pointer; background: transparent; color: var(--ink);
+  transition: .45s cubic-bezier(.16, 1, .3, 1);
+}
+.btn:hover { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+.btn.fill { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+.btn.fill:hover { background: var(--oxblood); border-color: var(--oxblood); }
+.btn.light { color: #fff; border-color: rgba(255,255,255,.7); }
+.btn.light:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+/* ---- reveal on scroll ---- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ---- breathing zoom on large imagery: subtle, like slow breath ---- */
+@keyframes breathe { from { transform: scale(1); } to { transform: scale(var(--breathe-max, 1.09)); } }
+.breathe img { animation: breathe 11s ease-in-out infinite alternate; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .breathe img { animation: none; } }
+
+/* ---- soft feathered joins between light and dark sections ---- */
+.soft-top { position: relative; }
+.soft-top::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 110px;
+  background: linear-gradient(180deg, var(--feather-from, var(--ivory)) 0%, transparent 100%);
+  opacity: .16; pointer-events: none; z-index: 0;
+}

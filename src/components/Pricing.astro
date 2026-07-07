@@ -1,0 +1,54 @@
+---
+import { t, type Locale } from '../i18n/content';
+const { locale } = Astro.props as { locale: Locale };
+const c = t(locale).pricing;
+---
+<section class="pricing pad" id="pricing">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow reveal">{c.eyebrow}</p>
+      <div class="rule reveal"></div>
+      <h2 class="reveal">{c.title}</h2>
+      <p class="price reveal"><s>{c.priceOld}</s> <b>{c.priceNew}</b></p>
+      <p class="pdeadline reveal">{c.priceDeadline}</p>
+      <p class="pnote reveal">{c.priceNote}</p>
+      <ul class="lines reveal">{c.lines.map((l) => <li>{l}</li>)}</ul>
+    </div>
+
+    <div class="cols reveal">
+      <div class="col inc">
+        <h3>{c.includedTitle}</h3>
+        <ul>{c.included.map((i) => <li>{i}</li>)}</ul>
+      </div>
+      <div class="col exc">
+        <h3>{c.notIncludedTitle}</h3>
+        <ul>{c.notIncluded.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </div>
+
+    <div class="center reveal"><a class="btn fill" href="#apply">{c.cta}</a></div>
+  </div>
+</section>
+
+<style>
+  .pricing { background: var(--paper); }
+  .price { margin-top: 16px; font-family: var(--serif); }
+  .price s { color: var(--ink-soft); opacity: .7; font-size: 1.6rem; margin-right: 10px; }
+  .price b { font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 500; color: var(--terracotta); }
+  .pdeadline { margin-top: 14px; font-family: var(--sans); font-size: .78rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--terracotta); }
+  .pnote { color: var(--ink-soft); font-style: italic; font-family: var(--serif); margin-top: 6px; }
+  .lines { list-style: none; margin: 22px auto 0; max-width: 620px; }
+  .lines li { padding: 7px 0; color: var(--ink-soft); font-size: .95rem; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 48px 0; }
+  @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+  .col { background: var(--ivory); border: 1px solid var(--line); border-radius: 4px; padding: 30px 28px; }
+  .col h3 { font-size: 1.4rem; margin-bottom: 16px; }
+  .inc h3 { color: var(--olive); }
+  .exc h3 { color: var(--ink-soft); }
+  .col ul { list-style: none; }
+  .col li { padding: 9px 0; border-top: 1px solid var(--line); font-size: .95rem; color: var(--ink); display: flex; gap: 10px; }
+  .col li:first-child { border-top: 0; }
+  .inc li::before { content: '✓'; color: var(--olive); }
+  .exc li { color: var(--ink-soft); }
+  .exc li::before { content: '·'; color: var(--ink-soft); }
+</style>

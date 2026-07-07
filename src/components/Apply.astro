@@ -1,0 +1,75 @@
+---
+import { t, type Locale } from '../i18n/content';
+const { locale } = Astro.props as { locale: Locale };
+const c = t(locale).apply;
+const f = c.fields;
+// TODO Luna: replace with your Formspree endpoint (or Cloudflare Pages Function) + real TG/WA
+const FORM_ACTION = 'https://formspree.io/f/REPLACE_ME';
+const TELEGRAM = 'https://t.me/REPLACE';
+const WHATSAPP = 'https://wa.me/REPLACE';
+---
+<section class="apply pad" id="apply">
+  <div class="wrap narrow center">
+    <p class="closing-art reveal" aria-hidden="true">Play, not push</p>
+    <p class="eyebrow light reveal">{c.eyebrow}</p>
+    <div class="rule reveal"></div>
+    <h2 class="reveal">{c.title}</h2>
+
+    <form class="form reveal" action={FORM_ACTION} method="POST">
+      <div class="row">
+        <input type="text" name="name" placeholder={f.name} required />
+        <input type="text" name="contact" placeholder={f.contact} required />
+      </div>
+      <div class="row">
+        <select name="level" required>
+          <option value="" disabled selected>{f.level}</option>
+          {f.levelOpts.map((o) => <option value={o}>{o}</option>)}
+        </select>
+        <select name="party" required>
+          <option value="" disabled selected>{f.party}</option>
+          {f.partyOpts.map((o) => <option value={o}>{o}</option>)}
+        </select>
+      </div>
+      <textarea name="comment" rows="3" placeholder={f.comment}></textarea>
+      <button type="submit" class="btn fill">{c.submit}</button>
+      <p class="micro">{c.micro}</p>
+    </form>
+
+    <div class="direct reveal">
+      <span>{c.orContact}</span>
+      <a href={TELEGRAM} target="_blank" rel="noopener">Telegram</a>
+      <a href={WHATSAPP} target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .apply { position: relative; background: linear-gradient(140deg, #24382d 0%, var(--bottle) 55%, #37503f 100%); color: var(--ivory); }
+  .apply::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 110px; background: linear-gradient(180deg, var(--ivory), transparent); opacity: .12; pointer-events: none; }
+  .apply::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 150px rgba(8,14,10,.4); pointer-events: none; }
+  .apply .wrap { position: relative; z-index: 1; }
+  .closing-art { font-family: var(--serif); font-style: italic; font-size: clamp(1.6rem, 3.4vw, 2.6rem); color: rgba(251,248,241,.42); margin-bottom: clamp(36px, 6vw, 60px); letter-spacing: .04em; }
+  .narrow { max-width: 720px; }
+  .apply .eyebrow.light { color: var(--brass); }
+  .apply .rule { background: var(--brass); }
+  .apply h2 { color: var(--ivory); }
+  .form { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; text-align: left; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+  input, select, textarea {
+    width: 100%; font-family: var(--sans); font-size: 1rem; color: var(--ivory);
+    background: rgba(251,248,241,.06); border: 1px solid rgba(251,248,241,.3); border-radius: 3px;
+    padding: 15px 16px; transition: border-color .3s;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(251,248,241,.55); }
+  select { color: rgba(251,248,241,.85); }
+  select option { color: var(--ink); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brass); }
+  .form .btn { align-self: center; margin-top: 6px; }
+  .form .btn.fill { background: var(--terracotta); border-color: var(--terracotta); }
+  .micro { text-align: center; font-size: .8rem; color: rgba(251,248,241,.7); margin-top: 4px; }
+  .direct { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; }
+  .direct span { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(251,248,241,.6); }
+  .direct a { border: 1px solid rgba(251,248,241,.5); border-radius: 40px; padding: 11px 24px; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; transition: .4s; }
+  .direct a:hover { background: var(--ivory); color: var(--bottle); border-color: var(--ivory); }
+</style>
