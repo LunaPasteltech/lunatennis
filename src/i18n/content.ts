@@ -127,12 +127,13 @@ export const content = {
     },
     program: {
       eyebrow: 'Программа',
-      title: 'Четыре дня, выстроенные',
+      title: 'Как проходят дни',
+      accent: 'Теннис — каждый день. Сердце ретрита, а не пункт программы.',
       days: [
-        { n: '01', title: 'Прибытие', text: 'Выезд из Барселоны. Велком-дринк на вилле и обед-знакомство — первый круг за общим столом. Заселение, первый выход на корт. Закат и ужин под открытым небом.' },
-        { n: '02', title: 'Море', text: 'Медитация и медленный завтрак. Выход на яхте вдоль побережья: скрытые бухты, купание, обед у воды. Теннис во второй половине дня. Неспешный ужин от шефа.' },
-        { n: '03', title: 'Игра', text: 'Утренняя йога и завтрак. Турнир на легендарных кортах La Gavina, затем обед в живописном S’Agaró. Восстановление, мастермайнд с бизнес-психологом. Secret dinner — в завершение дня.' },
-        { n: '04', title: 'Возвращение', text: 'Лёгкий завтрак и хайкинг по побережью. Обед на вилле, финальная отработка ударов на корте. Выезд в Барселону.' },
+        { n: '01', title: 'Встреча', text: 'Дорога из Барселоны вдоль побережья — велком-дринк на вилле — обед-знакомство за общим столом. Первый выход на корт — закат — ужин под открытым небом.' },
+        { n: '02', title: 'Море', text: 'Медитация на рассвете — медленный завтрак. Яхта вдоль побережья — скрытые бухты — купание в открытом море. Теннис ближе к вечеру — неспешный ужин от шефа.' },
+        { n: '03', title: 'Игра', text: 'Утренняя йога — завтрак. Турнир на легендарных кортах La Gavina — обед в живописном S’Agaró. Восстановление — мастермайнд с бизнес-психологом — secret dinner.' },
+        { n: '04', title: 'На выдохе', text: 'Лёгкий завтрак — хайкинг по Camí de Ronda. Обед на вилле — финальная отработка ударов. Выезд в Барселону — с ясной головой и лёгким телом.' },
       ],
     },
     reviews: {
@@ -287,12 +288,13 @@ export const content = {
     },
     program: {
       eyebrow: 'Programa',
-      title: 'Cuatro días, bien diseñados',
+      title: 'Cómo pasan los días',
+      accent: 'Tenis — cada día. El corazón del retiro, no un punto del programa.',
       days: [
-        { n: '01', title: 'Llegada', text: 'Salida desde Barcelona. Welcome drink en la villa y comida de bienvenida — el primer círculo en torno a una mesa. Check-in y primera salida a la pista. Atardecer y cena al aire libre.' },
-        { n: '02', title: 'Mar', text: 'Meditación y desayuno sin prisa. Salida en yate por la costa: calas escondidas, baño, comida junto al agua. Tenis por la tarde. Cena tranquila de nuestro chef.' },
-        { n: '03', title: 'Juego', text: 'Yoga matutino y desayuno. Torneo en las legendarias pistas de La Gavina y comida en el pintoresco S’Agaró. Recuperación y mastermind con la psicóloga de negocios. Secret dinner para cerrar el día.' },
-        { n: '04', title: 'Regreso', text: 'Desayuno ligero y senderismo por la costa. Comida en la villa, última sesión de golpes en pista. Salida hacia Barcelona.' },
+        { n: '01', title: 'Encuentro', text: 'Camino desde Barcelona por la costa — welcome drink en la villa — comida de bienvenida en torno a una mesa. Primera salida a la pista — atardecer — cena al aire libre.' },
+        { n: '02', title: 'Mar', text: 'Meditación al amanecer — desayuno sin prisa. Yate por la costa — calas escondidas — baño en mar abierto. Tenis por la tarde — cena tranquila de nuestro chef.' },
+        { n: '03', title: 'Juego', text: 'Yoga matutino — desayuno. Torneo en las legendarias pistas de La Gavina — comida en el pintoresco S’Agaró. Recuperación — mastermind con la psicóloga de negocios — secret dinner.' },
+        { n: '04', title: 'Al exhalar', text: 'Desayuno ligero — senderismo por el Camí de Ronda. Comida en la villa — última sesión de golpes. Regreso a Barcelona — con la cabeza clara y el cuerpo ligero.' },
       ],
     },
     reviews: {
@@ -446,12 +448,13 @@ export const content = {
     },
     program: {
       eyebrow: 'Programme',
-      title: 'Four days, well designed',
+      title: 'How the days flow',
+      accent: 'Tennis — every day. The heart of the retreat, not a line in the schedule.',
       days: [
-        { n: '01', title: 'Arrival', text: 'Departure from Barcelona. A welcome drink at the villa and a get-to-know lunch — the first circle around one table. Check-in and a first hour on court. Sunset and dinner in the open air.' },
-        { n: '02', title: 'Sea', text: 'Meditation and a slow breakfast. A yacht day along the coast: hidden coves, swimming, lunch by the water. Tennis in the afternoon. An unhurried dinner by our chef.' },
-        { n: '03', title: 'Play', text: 'Morning yoga and breakfast. A tournament on the legendary La Gavina courts, then lunch in picturesque S’Agaró. Recovery and a mastermind with the business psychologist. Secret dinner to close the day.' },
-        { n: '04', title: 'Return', text: 'A light breakfast and a coastal hike. Lunch at the villa, a final hitting session on court. Departure for Barcelona.' },
+        { n: '01', title: 'The meeting', text: 'The coastal road from Barcelona — a welcome drink at the villa — a get-to-know lunch around one table. A first hour on court — sunset — dinner in the open air.' },
+        { n: '02', title: 'The sea', text: 'Meditation at sunrise — a slow breakfast. A yacht along the coast — hidden coves — open-sea swimming. Tennis later in the day — an unhurried dinner by our chef.' },
+        { n: '03', title: 'The game', text: 'Morning yoga — breakfast. A tournament on the legendary La Gavina courts — lunch in picturesque S’Agaró. Recovery — a mastermind with the business psychologist — secret dinner.' },
+        { n: '04', title: 'The exhale', text: 'A light breakfast — a hike along the Camí de Ronda. Lunch at the villa — a final hitting session. Back to Barcelona — clear-headed and light.' },
       ],
     },
     reviews: {
