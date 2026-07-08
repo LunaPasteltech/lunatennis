@@ -4,7 +4,7 @@ const { locale } = Astro.props as { locale: Locale };
 const c = t(locale).apply;
 const f = c.fields;
 // TODO Luna: replace with your Formspree endpoint (or Cloudflare Pages Function) + real TG/WA
-const FORM_ACTION = 'https://formspree.io/f/REPLACE_ME';
+const FORM_ACTION = 'https://formsubmit.co/anastasiia@lunapastel.io'; // заявки — на почту Luna
 const TELEGRAM = 'https://t.me/REPLACE';
 const WHATSAPP = 'https://wa.me/REPLACE';
 ---
@@ -16,6 +16,8 @@ const WHATSAPP = 'https://wa.me/REPLACE';
     <h2 class="reveal">{c.title}</h2>
 
     <form class="form reveal" action={FORM_ACTION} method="POST">
+      <input type="hidden" name="_subject" value="Заявка · Luna Tennis Retreat" />
+      <input type="hidden" name="_captcha" value="false" />
       <div class="row">
         <input type="text" name="name" placeholder={f.name} required />
         <input type="text" name="contact" placeholder={f.contact} required />
@@ -35,11 +37,11 @@ const WHATSAPP = 'https://wa.me/REPLACE';
       <p class="micro">{c.micro}</p>
     </form>
 
-    <div class="direct reveal">
+    {false && <div class="direct reveal">
       <span>{c.orContact}</span>
       <a href={TELEGRAM} target="_blank" rel="noopener">Telegram</a>
       <a href={WHATSAPP} target="_blank" rel="noopener">WhatsApp</a>
-    </div>
+    </div>}
   </div>
 </section>
 
