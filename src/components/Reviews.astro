@@ -2,6 +2,7 @@
 import { t, type Locale } from '../i18n/content';
 const { locale } = Astro.props as { locale: Locale };
 const c = t(locale).reviews;
+const B = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <section class="revs pad" id="reviews">
   <div class="wrap">
@@ -15,10 +16,14 @@ const c = t(locale).reviews;
       {c.people.map((p) => (
         <a class="card reveal" href={p.url} target="_blank" rel="noopener" aria-label={`${p.name} — Instagram`}>
           <div class="head">
-            <div class="avatar"><span class="slot">{p.photoSlot}</span></div>
+            <div class="avatar">
+              {'photo' in p && p.photo
+                ? <img src={`${B}${p.photo}`} alt={p.name} loading="lazy" />
+                : <span class="slot">{p.photoSlot}</span>}
+            </div>
             <div class="who">
               <span class="name">{p.name}</span>
-              <span class="role">{p.role}</span>
+              {p.role && <span class="role">{p.role}</span>}
             </div>
           </div>
           <p class="text">{p.text}</p>

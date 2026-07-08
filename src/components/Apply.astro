@@ -4,7 +4,7 @@ const { locale } = Astro.props as { locale: Locale };
 const c = t(locale).apply;
 const f = c.fields;
 // TODO Luna: replace with your Formspree endpoint (or Cloudflare Pages Function) + real TG/WA
-const FORM_ACTION = 'https://formsubmit.co/anastasiia@lunapastel.io'; // заявки — на почту Luna
+const FORM_ACTION = 'https://formspree.io/f/mnjkyeyb'; // Formspree — заявки на почту Luna
 const TELEGRAM = 'https://t.me/REPLACE';
 const WHATSAPP = 'https://wa.me/REPLACE';
 ---
@@ -15,9 +15,8 @@ const WHATSAPP = 'https://wa.me/REPLACE';
     <div class="rule reveal"></div>
     <h2 class="reveal">{c.title}</h2>
 
-    <form class="form reveal" action={FORM_ACTION} method="POST">
+    <form class="form reveal" id="apply-form" action={FORM_ACTION} method="POST" data-success={c.success} data-error={c.error}>
       <input type="hidden" name="_subject" value="Заявка · Luna Tennis Retreat" />
-      <input type="hidden" name="_captcha" value="false" />
       <div class="row">
         <input type="text" name="name" placeholder={f.name} required />
         <input type="text" name="contact" placeholder={f.contact} required />
@@ -35,6 +34,7 @@ const WHATSAPP = 'https://wa.me/REPLACE';
       <textarea name="comment" rows="3" placeholder={f.comment}></textarea>
       <button type="submit" class="btn fill">{c.submit}</button>
       <p class="micro">{c.micro}</p>
+      <p class="form-note" id="form-note" role="status"></p>
     </form>
 
     {false && <div class="direct reveal">
@@ -70,8 +70,44 @@ const WHATSAPP = 'https://wa.me/REPLACE';
   .form .btn { align-self: center; margin-top: 6px; }
   .form .btn.fill { background: var(--terracotta); border-color: var(--terracotta); }
   .micro { text-align: center; font-size: .8rem; color: rgba(251,248,241,.7); margin-top: 4px; }
+  .form-note { text-align: center; font-family: var(--serif); font-style: italic; font-size: 1.05rem; margin-top: 10px; min-height: 1.4em; }
+  .form-note.ok { color: #cfe3c9; }
+  .form-note.err { color: #e3b8a8; }
   .direct { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; }
   .direct span { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(251,248,241,.6); }
   .direct a { border: 1px solid rgba(251,248,241,.5); border-radius: 40px; padding: 11px 24px; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; transition: .4s; }
   .direct a:hover { background: var(--ivory); color: var(--bottle); border-color: var(--ivory); }
 </style>
+
+<script>
+  const form = document.getElementById('apply-form') as HTMLFormElement | null;
+  const note = document.getElementById('form-note') as HTMLElement | null;
+  if (form && note) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      btn.disabled = true;
+      note.className = 'form-note';
+      note.textContent = '…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          note.textContent = form.dataset.success || 'OK';
+          note.classList.add('ok');
+          form.reset();
+        } else {
+          note.textContent = form.dataset.error || 'Error';
+          note.classList.add('err');
+        }
+      } catch {
+        note.textContent = form.dataset.error || 'Error';
+        note.classList.add('err');
+      }
+      btn.disabled = false;
+    });
+  }
+</script>
