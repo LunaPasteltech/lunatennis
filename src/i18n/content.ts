@@ -7,14 +7,14 @@ export const RETREAT_START = '2026-08-13T00:00:00';
 // Gallery: Luna edits this list — drop files into public/gallery/ and add filenames here.
 // null = elegant placeholder slot. 6–9 items recommended.
 export const GALLERY_IMAGES: (string | null)[] = [
-  'gallery/g1.jpg',
+  'gallery/court.jpg',
+  'gallery/yacht.jpg',
+  'gallery/cove.jpg',
+  'gallery/yoga-pool.jpg',
   'gallery/g2.jpg',
-  'gallery/g3.jpg',
+  'gallery/street.jpg',
   'gallery/g4.jpg',
-  null,
-  null,
-  null,
-  null,
+  'gallery/court-girls.jpg',
 ];
 
 export const content = {
