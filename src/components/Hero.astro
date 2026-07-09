@@ -26,7 +26,6 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
     </video>
   </div>
   <div class="scrim"></div>
-  <span class="imgslot">IMG: HERO — слайдшоу · пришли 3–5 горизонтальных кадров (16:9)</span>
 
   <div class="inner wrap">
     <p class="eyebrow light reveal">{h.eyebrow}</p>
@@ -95,12 +94,6 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
       linear-gradient(90deg, rgba(15,17,22,.62) 0%, rgba(15,17,22,.2) 52%, rgba(15,17,22,0) 80%),
       linear-gradient(180deg, rgba(15,17,22,.5) 0%, rgba(15,17,22,.22) 32%, rgba(15,17,22,.5) 62%, rgba(15,17,22,.86) 100%);
   }
-  .imgslot {
-    position: absolute; right: 16px; top: 92px; z-index: 3;
-    font-family: var(--sans); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
-    color: rgba(255,255,255,.6); border: 1px dashed rgba(255,255,255,.38); padding: 5px 10px; border-radius: 2px;
-  }
-  @media (max-width: 1080px) { .imgslot { display: none; } }
   .inner { position: relative; z-index: 2; width: 100%; margin-top: auto; padding-bottom: clamp(44px, 7vw, 88px); }
   .eyebrow.light { color: #fff; opacity: .92; }
   .display { color: #fff; max-width: 16ch; margin: 18px 0 0; text-shadow: 0 2px 30px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.35); }
