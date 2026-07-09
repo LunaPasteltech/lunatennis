@@ -148,7 +148,7 @@ export const content = {
     gallery: { eyebrow: 'Галерея', title: 'Кадры из нашей жизни', slot: 'Фото скоро' },
     pricing: {
       eyebrow: 'Цена',
-      title: 'Первая основательная когорта',
+      title: 'Стоимость участия',
       priceOld: '€3200', priceNew: '€2800',
       // ↓ дедлайн цены — Luna правит только эту строку
       priceDeadline: 'Цена действует до 23 июля',
@@ -309,7 +309,7 @@ export const content = {
     gallery: { eyebrow: 'Galería', title: 'Escenas de nuestra vida', slot: 'Foto pronto' },
     pricing: {
       eyebrow: 'Precio',
-      title: 'Primera cohorte fundacional',
+      title: 'Coste de participación',
       priceOld: '€3200', priceNew: '€2800',
       priceDeadline: 'Precio válido hasta el 23 de julio',
       priceNote: 'después de esa fecha el precio sube',
@@ -469,7 +469,7 @@ export const content = {
     gallery: { eyebrow: 'Gallery', title: 'Scenes from our life', slot: 'Photo soon' },
     pricing: {
       eyebrow: 'Pricing',
-      title: 'First founding cohort',
+      title: 'Cost of participation',
       priceOld: '€3200', priceNew: '€2800',
       priceDeadline: 'This price holds until 23 July',
       priceNote: 'after that date the price goes up',
