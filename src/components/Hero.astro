@@ -137,6 +137,9 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
       v.preload = 'none';
       while (v.firstChild) v.removeChild(v.firstChild);
     } else {
+      // iOS/Android need the muted + playsInline *properties* set, plus an explicit play()
+      v.muted = true;
+      v.playsInline = true;
       if (small && v.dataset.mobileSrc) {
         // swap in the vertical mobile encode so it fills a portrait screen crisply
         while (v.firstChild) v.removeChild(v.firstChild);
@@ -147,7 +150,14 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
         if (v.dataset.mobilePoster) v.poster = v.dataset.mobilePoster;
         v.load();
       }
-      v.addEventListener('loadeddata', () => v.classList.add('ready'));
+      const show = () => v.classList.add('ready');
+      const tryPlay = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+      v.addEventListener('loadeddata', () => { show(); tryPlay(); });
+      v.addEventListener('canplay', tryPlay);
+      if (v.readyState >= 2) { show(); tryPlay(); }
+      // retry on the first user gesture in case autoplay was blocked
+      ['touchstart', 'pointerdown', 'click'].forEach((e) =>
+        window.addEventListener(e, tryPlay, { once: true, passive: true }));
     }
   }
 </script>
