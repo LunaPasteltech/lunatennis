@@ -4,6 +4,11 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'ru';
 export const RETREAT_START = '2026-08-13T00:00:00';
 
+// Тумблер триггера цены: 'A' = дедлайн + «цена вырастет»; 'B' = «осталось N мест».
+// Luna меняет одну букву. SPOTS_LEFT — число мест для режима B.
+export const PRICE_MODE: 'A' | 'B' = 'A';
+export const SPOTS_LEFT = 6;
+
 // Gallery: Luna edits this list — drop files into public/gallery/ and add filenames here.
 // null = elegant placeholder slot. 6–9 items recommended.
 export const GALLERY_IMAGES: (string | null)[] = [
@@ -61,7 +66,8 @@ export const content = {
         'Ищешь среду равных: женский круг без случайных людей',
         'Ценишь камерность, вкус и приватность',
       ],
-      closing: 'Приватная группа. Собранная вручную, для своих.',
+      closing: 'Приватная группа, собранная вручную.',
+      levelPlate: { title: 'Никогда не играла? Это не проблема.', body: 'Ретрит подходит для любого уровня — от первого выхода на корт до уверенной игры. Группы формируем по уровню, тренер работает с каждой индивидуально.' },
       founders: {
         luna: {
           name: 'Luna', role: 'Основательница',
@@ -131,10 +137,10 @@ export const content = {
       title: 'Как проходят дни',
       accent: 'Теннис — каждый день. Сердце ретрита, а не пункт программы.',
       days: [
-        { n: '01', title: 'Встреча', text: 'Дорога из Барселоны вдоль побережья — велком-дринк на вилле — обед-знакомство за общим столом. Первый выход на корт — закат — ужин под открытым небом.' },
-        { n: '02', title: 'Море', text: 'Медитация на рассвете — медленный завтрак. Яхта вдоль побережья — скрытые бухты — купание в открытом море. Теннис ближе к вечеру — неспешный ужин от шефа.' },
-        { n: '03', title: 'Игра', text: 'Утренняя йога — завтрак. Турнир на легендарных кортах La Gavina — обед в живописном S’Agaró. Восстановление — мастермайнд с бизнес-психологом — secret dinner.' },
-        { n: '04', title: 'На выдохе', text: 'Лёгкий завтрак — хайкинг по Camí de Ronda. Обед на вилле — финальная отработка ударов. Выезд в Барселону — с ясной головой и лёгким телом.' },
+        { n: '01', title: 'Встреча', text: 'Трансфер из Барселоны вдоль побережья · велком-дринк и обед-знакомство на вилле · первая тренировка на корте с тренером · закат и ужин под открытым небом' },
+        { n: '02', title: 'Море', text: 'Медитация на рассвете · завтрак · день на приватной яхте — скрытые бухты и купание · дневная тренировка на корте · неспешный ужин от личного шефа' },
+        { n: '03', title: 'Игра', text: 'Утренняя йога · завтрак · турнир на кортах La Gavina · обед в S’Agaró у моря · восстановление · мастермайнд с бизнес-психологом · secret dinner' },
+        { n: '04', title: 'На выдохе', text: 'Завтрак · хайкинг по Camí de Ronda вдоль моря · обед на вилле · финальная тренировка и отработка ударов · трансфер в Барселону' },
       ],
     },
     reviews: {
@@ -143,20 +149,25 @@ export const content = {
       people: [
         { name: 'Катя', role: 'Фуд-блогер', handle: '@katyafoodlover', url: 'https://www.instagram.com/katyafoodlover', photo: 'reviews/katya.jpg', text: 'У меня уже был небольшой опыт занятий теннисом до этого ретрита, но всё равно внутри были переживания насчёт моего уровня. Честно говоря, боялась выглядеть глупо. Но мои опасения оказались напрасными: тренер объяснял всё так, что за эти дни мой уровень игры значительно улучшился. И никто друг друга не оценивал — атмосфера была очень дружественная и поддерживающая. Это оказалось самым важным для меня.', photoSlot: 'IMG: Катя · аватар' },
         { name: 'Наташа', role: 'Фотограф', handle: '@nata_ph1', url: 'https://www.instagram.com/nata_ph1', photo: 'reviews/natasha.jpg', text: 'Если честно, я ехала за красивой картинкой и отдыхом на море, но получила гораздо больше. Наши мастермайнды и разговоры дали мне больше, чем другие бизнес-выезды. При этом мы ещё и отдыхали, занимались спортом. Такое сочетание я нигде не встречала.', photoSlot: 'IMG: Наташа · аватар' },
-        { name: 'Алина', role: '', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: 'Я привыкла считать, стоит ли что-то своих денег. И этот ретрит стоил каждого евро. После него я вернулась не просто отдохнувшей, а с ясной головой, новыми связями и ощущением, что я наконец выдохнула. Уже жду следующий.', photoSlot: 'IMG: Алина · аватар' },
+        { name: 'Алина', role: 'Предприниматель', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: 'Я привыкла считать, стоит ли что-то своих денег. И этот ретрит стоил каждого евро. После него я вернулась не просто отдохнувшей, а с ясной головой, новыми связями и ощущением, что я наконец выдохнула. Уже жду следующий.', photoSlot: 'IMG: Алина · аватар' },
       ],
     },
     gallery: { eyebrow: 'Галерея', title: 'Кадры из нашей жизни', slot: 'Фото скоро' },
     pricing: {
       eyebrow: 'Цена',
       title: 'Стоимость участия',
+      mainLabel: 'Участие',
       priceOld: '€3200', priceNew: '€2800',
       // ↓ дедлайн цены — Luna правит только эту строку
       priceDeadline: 'Цена действует до 23 июля',
       priceNote: 'после этой даты цена вырастет',
+      spotsNote: 'осталось мест:',
+      pairLabel: 'С подругой',
+      pairPrice: '€2600', pairSub: 'за человека',
+      pairNote: 'Разделить эмоции с подругой',
       lines: ['Депозит €500 фиксирует место, остаток до 1 августа', 'Можно разбить на 2 платежа'],
       includedTitle: 'Что входит',
-      included: ['Проживание на вилле, 3 ночи', 'Теннис с тренером + мини-турнир', 'Финальный турнир на кортах La Gavina (S’Agaró)', 'Йога', 'День на яхте', 'Хайкинг', 'Все приёмы пищи от личного шефа', 'Лекция и НЛП-практики Полины + сессия после', 'Фото- и видео-контент', 'Трансферы из/в Барселону'],
+      included: ['Проживание на вилле у моря: полноценных 4 дня, 3 ночи', 'Групповые и индивидуальные тренировки по теннису с тренером', 'Финальный турнир на кортах La Gavina (S’Agaró)', 'Йога и медитация', 'День на яхте', 'Хайкинг', 'Все приёмы пищи от личного шефа', 'Мастермайнд с бизнес-психологом', 'Фото- и видео-контент', 'Трансферы из/в Барселону'],
       notIncludedTitle: 'Что не входит',
       notIncluded: ['Перелёт/дорога до Барселоны', 'Страховка', 'Личные расходы', 'Алкоголь', 'Доп. активности (напр. джет-ски)'],
       cta: 'Забронировать место',
@@ -166,7 +177,7 @@ export const content = {
       title: 'Коротко о важном',
       items: [
         { q: 'Какой нужен уровень тенниса?', a: 'Любой — игры и группы подбираются по уровню, тренер уточнит уровень заранее.' },
-        { q: 'Кто будет в группе?', a: 'Маленькая камерная группа амбициозных женщин, собирается вручную; вайб — предпринимательницы и профессионалки.' },
+        { q: 'Кто будет в группе?', a: 'Маленькая камерная группа амбициозных женщин, собирается вручную.' },
         { q: 'Где будем жить?', a: 'Частная вилла у моря на Коста-Браве с кортами; точный адрес — подтверждённым участницам.' },
         { q: 'Как и где едим?', a: 'Личный шеф, полный пансион; учитываем аллергии и предпочтения.' },
         { q: 'Как добраться?', a: 'Старт из Барселоны, трансфер включён; ближайший аэропорт — BCN.' },
@@ -229,7 +240,8 @@ export const content = {
         'Buscas un entorno de iguales: un círculo femenino sin gente al azar',
         'Valoras la intimidad, el gusto y la privacidad',
       ],
-      closing: 'Un grupo privado. Reunido a mano, para las nuestras.',
+      closing: 'Un grupo privado, reunido a mano.',
+      levelPlate: { title: '¿Nunca has jugado? No es problema.', body: 'El retiro se adapta a cualquier nivel — desde tu primera salida a la pista hasta un juego seguro. Formamos los grupos por nivel y el entrenador trabaja con cada una de forma individual.' },
       founders: {
         luna: {
           name: 'Luna', role: 'Fundadora',
@@ -293,10 +305,10 @@ export const content = {
       title: 'Cómo pasan los días',
       accent: 'Tenis — cada día. El corazón del retiro, no un punto del programa.',
       days: [
-        { n: '01', title: 'Encuentro', text: 'Camino desde Barcelona por la costa — welcome drink en la villa — comida de bienvenida en torno a una mesa. Primera salida a la pista — atardecer — cena al aire libre.' },
-        { n: '02', title: 'Mar', text: 'Meditación al amanecer — desayuno sin prisa. Yate por la costa — calas escondidas — baño en mar abierto. Tenis por la tarde — cena tranquila de nuestro chef.' },
-        { n: '03', title: 'Juego', text: 'Yoga matutino — desayuno. Torneo en las legendarias pistas de La Gavina — comida en el pintoresco S’Agaró. Recuperación — mastermind con la psicóloga de negocios — secret dinner.' },
-        { n: '04', title: 'Al exhalar', text: 'Desayuno ligero — senderismo por el Camí de Ronda. Comida en la villa — última sesión de golpes. Regreso a Barcelona — con la cabeza clara y el cuerpo ligero.' },
+        { n: '01', title: 'Encuentro', text: 'Traslado desde Barcelona por la costa · welcome drink y comida de bienvenida en la villa · primera sesión en pista con el entrenador · atardecer y cena al aire libre' },
+        { n: '02', title: 'Mar', text: 'Meditación al amanecer · desayuno · día en yate privado — calas escondidas y baño · sesión de tenis por la tarde · cena tranquila del chef privado' },
+        { n: '03', title: 'Juego', text: 'Yoga matutino · desayuno · torneo en las pistas de La Gavina · comida en S’Agaró junto al mar · recuperación · mastermind con la psicóloga de negocios · secret dinner' },
+        { n: '04', title: 'Al exhalar', text: 'Desayuno · senderismo por el Camí de Ronda junto al mar · comida en la villa · sesión final y práctica de golpes · traslado a Barcelona' },
       ],
     },
     reviews: {
@@ -305,19 +317,24 @@ export const content = {
       people: [
         { name: 'Katya', role: 'Food blogger', handle: '@katyafoodlover', url: 'https://www.instagram.com/katyafoodlover', photo: 'reviews/katya.jpg', text: 'Ya había jugado un poco al tenis antes del retiro, pero aun así me preocupaba mi nivel — sinceramente, temía parecer torpe. Mis miedos resultaron infundados: el entrenador explicaba todo de tal manera que en pocos días mi juego mejoró notablemente. Y nadie juzgaba a nadie: el ambiente era cálido y de apoyo. Eso fue lo más importante para mí.', photoSlot: 'IMG: Katya · avatar' },
         { name: 'Natasha', role: 'Fotógrafa', handle: '@nata_ph1', url: 'https://www.instagram.com/nata_ph1', photo: 'reviews/natasha.jpg', text: 'Sinceramente, vine por la imagen bonita y el descanso junto al mar — y recibí mucho más. Nuestros masterminds y conversaciones me dieron más que otros viajes de negocios. Y además descansamos e hicimos deporte. No he visto esa combinación en ningún otro sitio.', photoSlot: 'IMG: Natasha · avatar' },
-        { name: 'Alina', role: '', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: 'Estoy acostumbrada a calcular si algo vale su precio. Este retiro valió cada euro. Volví no solo descansada, sino con la cabeza clara, nuevos contactos y la sensación de por fin haber exhalado. Ya espero el siguiente.', photoSlot: 'IMG: Alina · avatar' },
+        { name: 'Alina', role: 'Emprendedora', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: 'Estoy acostumbrada a calcular si algo vale su precio. Este retiro valió cada euro. Volví no solo descansada, sino con la cabeza clara, nuevos contactos y la sensación de por fin haber exhalado. Ya espero el siguiente.', photoSlot: 'IMG: Alina · avatar' },
       ],
     },
     gallery: { eyebrow: 'Galería', title: 'Escenas de nuestra vida', slot: 'Foto pronto' },
     pricing: {
       eyebrow: 'Precio',
       title: 'Coste de participación',
+      mainLabel: 'Participación',
       priceOld: '€3200', priceNew: '€2800',
       priceDeadline: 'Precio válido hasta el 23 de julio',
       priceNote: 'después de esa fecha el precio sube',
+      spotsNote: 'plazas restantes:',
+      pairLabel: 'Con una amiga',
+      pairPrice: '€2600', pairSub: 'por persona',
+      pairNote: 'Compartir la experiencia con una amiga',
       lines: ['El depósito de €500 reserva la plaza; el resto, antes del 1 de agosto', 'Posibilidad de 2 pagos'],
       includedTitle: 'Incluye',
-      included: ['Alojamiento en villa, 3 noches', 'Tenis con entrenador + mini-torneo', 'Torneo final en las pistas de La Gavina (S’Agaró)', 'Yoga', 'Día en yate', 'Senderismo', 'Todas las comidas del chef privado', 'Charla y PNL con Polina + sesión posterior', 'Contenido foto y vídeo', 'Traslados desde/hacia Barcelona'],
+      included: ['Alojamiento en villa junto al mar: 4 días completos, 3 noches', 'Entrenamientos de tenis grupales e individuales con el entrenador', 'Torneo final en las pistas de La Gavina (S’Agaró)', 'Yoga y meditación', 'Día en yate', 'Senderismo', 'Todas las comidas del chef privado', 'Mastermind con la psicóloga de negocios', 'Contenido foto y vídeo', 'Traslados desde/hacia Barcelona'],
       notIncludedTitle: 'No incluye',
       notIncluded: ['Vuelo/viaje hasta Barcelona', 'Seguro', 'Gastos personales', 'Alcohol', 'Actividades extra (p. ej. jet ski)'],
       cta: 'Reservar mi plaza',
@@ -327,7 +344,7 @@ export const content = {
       title: 'Lo importante, en breve',
       items: [
         { q: '¿Qué nivel de tenis necesito?', a: 'Cualquiera — los juegos y grupos se adaptan al nivel; el entrenador lo confirmará antes.' },
-        { q: '¿Quién estará en el grupo?', a: 'Un grupo pequeño de mujeres ambiciosas, seleccionado a mano; emprendedoras y profesionales.' },
+        { q: '¿Quién estará en el grupo?', a: 'Un grupo pequeño de mujeres ambiciosas, seleccionado a mano.' },
         { q: '¿Dónde nos alojamos?', a: 'Villa privada junto al mar en la Costa Brava con pistas; dirección exacta para participantes confirmadas.' },
         { q: '¿Cómo se come?', a: 'Chef privado, pensión completa; tenemos en cuenta alergias y preferencias.' },
         { q: '¿Cómo llegar?', a: 'Salida desde Barcelona, traslado incluido; aeropuerto más cercano: BCN.' },
@@ -390,7 +407,8 @@ export const content = {
         'Seek a circle of equals: female company, no random people',
         'Value intimacy, taste and privacy',
       ],
-      closing: 'A private group. Hand-picked, for our own.',
+      closing: 'A private group, hand-picked.',
+      levelPlate: { title: 'Never played? Not a problem.', body: 'The retreat suits any level — from your first time on court to confident play. We form groups by level and the coach works with each woman individually.' },
       founders: {
         luna: {
           name: 'Luna', role: 'Founder',
@@ -454,10 +472,10 @@ export const content = {
       title: 'How the days flow',
       accent: 'Tennis — every day. The heart of the retreat, not a line in the schedule.',
       days: [
-        { n: '01', title: 'The meeting', text: 'The coastal road from Barcelona — a welcome drink at the villa — a get-to-know lunch around one table. A first hour on court — sunset — dinner in the open air.' },
-        { n: '02', title: 'The sea', text: 'Meditation at sunrise — a slow breakfast. A yacht along the coast — hidden coves — open-sea swimming. Tennis later in the day — an unhurried dinner by our chef.' },
-        { n: '03', title: 'The game', text: 'Morning yoga — breakfast. A tournament on the legendary La Gavina courts — lunch in picturesque S’Agaró. Recovery — a mastermind with the business psychologist — secret dinner.' },
-        { n: '04', title: 'The exhale', text: 'A light breakfast — a hike along the Camí de Ronda. Lunch at the villa — a final hitting session. Back to Barcelona — clear-headed and light.' },
+        { n: '01', title: 'The meeting', text: 'Transfer from Barcelona along the coast · welcome drink and a get-to-know lunch at the villa · first on-court session with the coach · sunset and dinner in the open air' },
+        { n: '02', title: 'The sea', text: 'Meditation at sunrise · breakfast · a day on a private yacht — hidden coves and swimming · afternoon court session · an unhurried dinner by the private chef' },
+        { n: '03', title: 'The game', text: 'Morning yoga · breakfast · tournament on the La Gavina courts · lunch in S’Agaró by the sea · recovery · mastermind with the business psychologist · secret dinner' },
+        { n: '04', title: 'The exhale', text: 'Breakfast · a hike along the Camí de Ronda by the sea · lunch at the villa · final session and stroke practice · transfer to Barcelona' },
       ],
     },
     reviews: {
@@ -466,19 +484,24 @@ export const content = {
       people: [
         { name: 'Katya', role: 'Food blogger', handle: '@katyafoodlover', url: 'https://www.instagram.com/katyafoodlover', photo: 'reviews/katya.jpg', text: "I'd played a little tennis before this retreat, but I was still nervous about my level — honestly, I was afraid of looking silly. My fears turned out to be pointless: the coach explained everything in a way that noticeably lifted my game within days. And nobody judged anyone — the atmosphere was warm and supportive. That turned out to matter most.", photoSlot: 'IMG: Katya · avatar' },
         { name: 'Natasha', role: 'Photographer', handle: '@nata_ph1', url: 'https://www.instagram.com/nata_ph1', photo: 'reviews/natasha.jpg', text: "Honestly, I came for the beautiful setting and a seaside break — and got much more. Our masterminds and conversations gave me more than other business trips ever have. And we still rested and trained. I haven't seen that combination anywhere else.", photoSlot: 'IMG: Natasha · avatar' },
-        { name: 'Alina', role: '', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: "I'm used to weighing whether something is worth the money. This retreat was worth every euro. I came back not just rested — but with a clear head, new connections and the feeling that I'd finally exhaled. Already waiting for the next one.", photoSlot: 'IMG: Alina · avatar' },
+        { name: 'Alina', role: 'Entrepreneur', handle: '@stylenotstale', url: 'https://www.instagram.com/stylenotstale', photo: 'reviews/alina.jpg', text: "I'm used to weighing whether something is worth the money. This retreat was worth every euro. I came back not just rested — but with a clear head, new connections and the feeling that I'd finally exhaled. Already waiting for the next one.", photoSlot: 'IMG: Alina · avatar' },
       ],
     },
     gallery: { eyebrow: 'Gallery', title: 'Scenes from our life', slot: 'Photo soon' },
     pricing: {
       eyebrow: 'Pricing',
       title: 'Cost of participation',
+      mainLabel: 'Participation',
       priceOld: '€3200', priceNew: '€2800',
       priceDeadline: 'This price holds until 23 July',
       priceNote: 'after that date the price goes up',
+      spotsNote: 'spots left:',
+      pairLabel: 'With a friend',
+      pairPrice: '€2600', pairSub: 'per person',
+      pairNote: 'Share it with a friend',
       lines: ['€500 deposit secures your place, balance by 1 August', 'Can be split into 2 payments'],
       includedTitle: 'Included',
-      included: ['Villa accommodation, 3 nights', 'Tennis with a coach + mini-tournament', 'Final tournament on the La Gavina courts (S’Agaró)', 'Yoga', 'Yacht day', 'Hiking', 'All meals by the private chef', 'Talk & NLP with Polina + a session after', 'Photo & video content', 'Transfers to/from Barcelona'],
+      included: ['Villa accommodation by the sea: a full 4 days, 3 nights', 'Group and individual tennis training with the coach', 'Final tournament on the La Gavina courts (S’Agaró)', 'Yoga and meditation', 'Yacht day', 'Hiking', 'All meals by the private chef', 'Mastermind with the business psychologist', 'Photo & video content', 'Transfers to/from Barcelona'],
       notIncludedTitle: 'Not included',
       notIncluded: ['Flight/travel to Barcelona', 'Insurance', 'Personal expenses', 'Alcohol', 'Extra activities (e.g. jet ski)'],
       cta: 'Reserve my place',
@@ -488,7 +511,7 @@ export const content = {
       title: 'The essentials, briefly',
       items: [
         { q: 'What tennis level do I need?', a: 'Any — games and groups are matched to level; the coach will confirm yours in advance.' },
-        { q: 'Who will be in the group?', a: 'A small, hand-picked group of ambitious women — founders and professionals.' },
+        { q: 'Who will be in the group?', a: 'A small, hand-picked group of ambitious women.' },
         { q: 'Where do we stay?', a: 'A private villa by the sea on the Costa Brava with courts; exact address shared with confirmed guests.' },
         { q: 'How do we eat?', a: 'A private chef, full board; allergies and preferences taken into account.' },
         { q: 'How do I get there?', a: 'We start from Barcelona, transfer included; nearest airport is BCN.' },

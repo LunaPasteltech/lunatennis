@@ -1,7 +1,9 @@
 ---
-import { t, type Locale } from '../i18n/content';
+import { t, type Locale, PRICE_MODE, SPOTS_LEFT } from '../i18n/content';
 const { locale } = Astro.props as { locale: Locale };
 const c = t(locale).pricing;
+// Триггер под ценой: режим A — дедлайн-нота; режим B — «осталось N мест»
+const trigger = PRICE_MODE === 'B' ? `${c.spotsNote} ${SPOTS_LEFT}` : c.priceNote;
 ---
 <section class="pricing pad" id="pricing">
   <div class="wrap">
@@ -9,11 +11,23 @@ const c = t(locale).pricing;
       <p class="eyebrow reveal">{c.eyebrow}</p>
       <div class="rule reveal"></div>
       <h2 class="reveal">{c.title}</h2>
-      <p class="price reveal"><s>{c.priceOld}</s> <b>{c.priceNew}</b></p>
-      <p class="pdeadline reveal">{c.priceDeadline}</p>
-      <p class="pnote reveal">{c.priceNote}</p>
-      <ul class="lines reveal">{c.lines.map((l) => <li>{l}</li>)}</ul>
     </div>
+
+    <div class="tiers reveal">
+      <div class="tier main">
+        <span class="tlabel">{c.mainLabel}</span>
+        <p class="price"><s>{c.priceOld}</s> <b>{c.priceNew}</b></p>
+        <p class="pdeadline">{c.priceDeadline}</p>
+        <p class="pnote">{trigger}</p>
+      </div>
+      <div class="tier pair">
+        <span class="tlabel">{c.pairLabel}</span>
+        <p class="price"><b>{c.pairPrice}</b> <span class="sub">{c.pairSub}</span></p>
+        <p class="pnote soft">{c.pairNote}</p>
+      </div>
+    </div>
+
+    <ul class="lines reveal">{c.lines.map((l) => <li>{l}</li>)}</ul>
 
     <div class="cols reveal">
       <div class="col inc">
@@ -32,13 +46,26 @@ const c = t(locale).pricing;
 
 <style>
   .pricing { background: var(--paper); }
-  .price { margin-top: 16px; font-family: var(--serif); }
-  .price s { color: var(--ink-soft); opacity: .7; font-size: 1.6rem; margin-right: 10px; }
-  .price b { font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 500; color: var(--terracotta); }
-  .pdeadline { margin-top: 14px; font-family: var(--sans); font-size: .78rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--terracotta); }
+
+  .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 32px); max-width: 760px; margin: 34px auto 0; }
+  @media (max-width: 640px) { .tiers { grid-template-columns: 1fr; } }
+  .tier { background: var(--ivory); border: 1px solid var(--line); border-radius: 4px; padding: clamp(24px, 3vw, 34px); text-align: center; }
+  .tier.pair { background: transparent; border-style: dashed; }
+  .tlabel { font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .price { margin-top: 12px; font-family: var(--serif); }
+  .price s { color: var(--ink-soft); opacity: .7; font-size: 1.4rem; margin-right: 8px; }
+  .price b { font-size: clamp(2.2rem, 4.6vw, 3.1rem); font-weight: 500; color: var(--terracotta); }
+  .tier.pair .price b { color: var(--ink); font-size: clamp(1.9rem, 4vw, 2.5rem); }
+  .price .sub { font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-left: 6px; }
+
+  .pdeadline { margin-top: 12px; font-family: var(--sans); font-size: .74rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--terracotta); }
   .pnote { color: var(--ink-soft); font-style: italic; font-family: var(--serif); margin-top: 6px; }
-  .lines { list-style: none; margin: 22px auto 0; max-width: 620px; }
+  .pnote.soft { font-size: .98rem; }
+
+  .lines { list-style: none; margin: 26px auto 0; max-width: 620px; text-align: center; }
   .lines li { padding: 7px 0; color: var(--ink-soft); font-size: .95rem; }
+
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 48px 0; }
   @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
   .col { background: var(--ivory); border: 1px solid var(--line); border-radius: 4px; padding: 30px 28px; }
