@@ -2,6 +2,7 @@
 import { t, type Locale } from '../i18n/content';
 const { locale } = Astro.props as { locale: Locale };
 const c = t(locale).footer;
+const p = t(locale).pricing; // цена/дедлайн берём из блока цены — правится в одном месте
 const year = 2026;
 ---
 <footer class="footer">
@@ -15,6 +16,12 @@ const year = 2026;
     </svg>
     <div class="brand">Luna</div>
     <p class="tag">{c.tagline}</p>
+
+    <a class="fdeadline" href="#apply">
+      <b>{p.priceNew}</b><span class="dot">·</span>{p.priceDeadline}
+      <span class="arw">→</span>
+    </a>
+
     {false && <div class="links">
       <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
       <a href="https://t.me/REPLACE" target="_blank" rel="noopener">Telegram</a>
@@ -28,6 +35,18 @@ const year = 2026;
   .fmark { width: 36px; height: 36px; margin: 0 auto 14px; display: block; }
   .brand { font-family: var(--serif); font-size: 1.5rem; letter-spacing: .16em; color: rgba(251,248,241,.92); }
   .tag { color: rgba(251,248,241,.7); font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; margin-top: 12px; }
+  .fdeadline {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 22px; padding: 11px 22px;
+    border: 1px solid rgba(181,97,58,.5); border-radius: 40px;
+    font-family: var(--sans); font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
+    color: rgba(251,248,241,.85); transition: .4s;
+  }
+  .fdeadline b { color: var(--brass); font-weight: 600; letter-spacing: .1em; }
+  .fdeadline .dot { color: rgba(251,248,241,.4); }
+  .fdeadline .arw { color: var(--brass); transition: transform .4s; }
+  .fdeadline:hover { border-color: var(--brass); background: rgba(181,97,58,.12); }
+  .fdeadline:hover .arw { transform: translateX(4px); }
   .links { display: flex; justify-content: center; gap: 20px; margin-top: 18px; }
   .links a { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(251,248,241,.75); }
   .links a:hover { color: var(--ivory); }
