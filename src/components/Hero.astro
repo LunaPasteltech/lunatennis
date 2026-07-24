@@ -28,6 +28,7 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
   <div class="scrim"></div>
 
   <div class="inner wrap">
+    <a class="announce reveal" href="#pricing"><span class="dot"></span>{h.announce}<span class="arw">→</span></a>
     <p class="eyebrow light reveal">{h.eyebrow}</p>
     <h1 class="display reveal">{h.title}</h1>
     <p class="sub reveal">{h.subtitle}</p>
@@ -39,7 +40,7 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
 
     <ul class="facts reveal">
       {h.facts.map((f) => <li>{f}</li>)}
-      <li class="price"><s>{h.priceOld}</s> <b>{h.priceNew}</b></li>
+      <li class="price">{h.priceOld && <s>{h.priceOld}</s>} <b>{h.priceNew}</b></li>
     </ul>
 
     <div class="ctas reveal">
@@ -95,6 +96,19 @@ const slides = [`${B}hero/hero-1.jpg`, `${B}hero/hero-2.jpg`, `${B}hero/hero-3.j
       linear-gradient(180deg, rgba(15,17,22,.5) 0%, rgba(15,17,22,.22) 32%, rgba(15,17,22,.5) 62%, rgba(15,17,22,.86) 100%);
   }
   .inner { position: relative; z-index: 2; width: 100%; margin-top: auto; padding-bottom: clamp(44px, 7vw, 88px); }
+  .announce {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    padding: 9px 16px 9px 14px; border-radius: 40px;
+    background: rgba(181,97,58,.9); color: #fff;
+    font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    backdrop-filter: blur(4px); box-shadow: 0 6px 24px -8px rgba(0,0,0,.5); transition: .35s;
+  }
+  .announce .dot { width: 7px; height: 7px; border-radius: 50%; background: #fff; flex: none; animation: apulse 2s ease-in-out infinite; }
+  .announce .arw { transition: transform .35s; }
+  .announce:hover { background: var(--terracotta); }
+  .announce:hover .arw { transform: translateX(4px); }
+  @keyframes apulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @media (max-width: 560px) { .announce { font-size: .64rem; letter-spacing: .06em; padding: 8px 13px; } }
   .eyebrow.light { color: #fff; opacity: .92; }
   .display { color: #fff; max-width: 16ch; margin: 18px 0 0; text-shadow: 0 2px 30px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.35); }
   .sub { color: #fff; max-width: 600px; margin: 22px 0 0; font-size: clamp(1.02rem, 1.5vw, 1.22rem); font-weight: 300; opacity: .96; text-shadow: 0 1px 20px rgba(0,0,0,.3); }
